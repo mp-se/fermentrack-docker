@@ -1,0 +1,3 @@
+volumes/db/*
+volumes/log/*
+volumes/data/*
