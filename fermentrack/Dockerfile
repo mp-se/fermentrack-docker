@@ -66,10 +66,11 @@ USER root
 WORKDIR /home/fermentrack
 RUN pip install virtualenv
 RUN virtualenv venv
-ENV VIRTUAL_ENV /home/fermentrack/venv                     
-ENV PATH /home/fermentrack/venv/bin:$PATH
-ENV HOME /home/fermentrack
-ENV SHELL=/bin/bash
+ENV VIRTUAL_ENV="/home/fermentrack/venv"
+ENV PATH="/home/fermentrack/venv/bin:/usr/bin"
+ENV HOME="/home/fermentrack"
+ENV SHELL="/bin/bash"
+ENV PYTHONPATH=":/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USER=fermentrack
 RUN pip install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
 USER fermentrack
@@ -95,7 +96,9 @@ RUN apt-get remove -y \
   git-core \
   nano
 #
+# Start the supervisor
+#
 WORKDIR /home/fermentrack/fermentrack
 USER root
-CMD ["chown -R fermentrack:fermentrack /home/fermentrack && /usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord"]
 # EOF
