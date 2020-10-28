@@ -49,16 +49,7 @@ Good luck! /Magnus
 
 ## Troubleshooting
 
-**Issue 1: Fermentrack process not starting (exit code in log)**
-Solution 1: Might be that the mounted directories does not have the correct access rights. Fermentrack is run under the fermentrack user and should own the directories. Connect to the docker container and run the following commands;
-```
-cd /home/fermentrack/fermentrack
-ls -al
-```
-All files and folders should say fermentrack fermentrack as user/group. If not run the following command. Will add a fix for this in the future.
-```
-chown -R fermentrack:fermentrack *
-```
+See Issues for known problems and options.
 
 
 
