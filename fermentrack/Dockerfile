@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   ca-certificates \
   build-essential \
   git-core \
+  avrdude \
   nano
 #
 # Create the fermentrack user, group and directories for git. Its needed for fermentrack to work correcly
