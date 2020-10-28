@@ -97,5 +97,5 @@ RUN apt-get remove -y \
 #
 WORKDIR /home/fermentrack/fermentrack
 USER root
-CMD ["/usr/bin/supervisord"]
+CMD ["chown -R fermentrack:fermentrack /home/fermentrack && /usr/bin/supervisord"]
 # EOF
