@@ -2,6 +2,8 @@
 
 If you want to know more about Fermentrack please go to [https://docs.fermentrack.com/](https://docs.fermentrack.com/).
 
+NOTE! This is still under testing/development and might not work as expected. 
+
 ## My first attempt to create a dockerfile for Fermentrack
 
 I wanted to move my installation to a normal x86 server in order to improve my possibilities to make backup of the database and brew logs. I have had one to many crashes where I most most of the data. 
@@ -33,14 +35,32 @@ You can download the docker image from here .... < ADD URL >
 
 The following VOLUMES should be mounted for the container;
 
-* - <YOUR PATH>:/home/fermentrack/fermentrack/data
-* - <YOUR PATH>:/home/fermentrack/fermentrack/log
-* - <YOUR PATH>:/home/fermentrack/fermentrack/db
+* - YOUR PATH:/home/fermentrack/fermentrack/data
+* - YOUR PATH:/home/fermentrack/fermentrack/log
+* - YOUR PATH:/home/fermentrack/fermentrack/db
 
 The follwoing PORTS should be mapped for the container;
 
-* <YOUR PORT>:80
+* YOUR PORT:80
 
 Any suggestions on improvements are welcome, and please note that this is not tested enough to ensure stability, please backup your data files before testing. I take no responsibility for lost data. The project is made available as is. 
 
 Good luck! /Magnus
+
+## Troubleshooting
+
+**Issue 1: Fermentrack process not starting (exit code in log)**
+Solution 1: Might be that the mounted directories does not have the correct access rights. Fermentrack is run under the fermentrack user and should own the directories. Connect to the docker container and run the following commands;
+```
+cd /home/fermentrack/fermentrack
+ls -al
+```
+All files and folders should say fermentrack fermentrack as user/group. If not run the following command. Will add a fix for this in the future.
+```
+chown -R fermentrack:fermentrack *
+```
+
+
+
+
+
