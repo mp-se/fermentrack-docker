@@ -4,6 +4,10 @@ If you want to know more about Fermentrack please go to [https://docs.fermentrac
 
 NOTE! This is still under testing/development and might not work as expected. 
 
+I will figure out a way to tag these versions with the fermentrack release version to avoid confusion. But here is the version mapping so far:
+
+v0.1.0 = fermentrack release 4d8d89b from 22 Aug
+
 ## My first attempt to create a dockerfile for Fermentrack
 
 I wanted to move my installation to a normal x86 server in order to improve my possibilities to make backup of the database and brew logs. I have had one to many crashes where I lost most of the data. 
