@@ -35,7 +35,14 @@ RUN groupadd -g 2000 fermentrack && useradd -m -u 2001 -g fermentrack fermentrac
 #
 WORKDIR /home/fermentrack
 USER fermentrack:fermentrack
-RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
+#
+# Use this for using the master branch from thorrak (beware that running git update from the repository will break the installation)
+#RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
+#
+# Use my development branch to include changes that blocks git upgrades that otherwise will break the setup (especially db location). 
+# I will keep this branch up to date with the thorrak master branch until I can test/merge the needed changes.
+RUN git clone -b docker https://github.com/mp-se/fermentrack.git /home/fermentrack/fermentrack
+#
 RUN /home/fermentrack/fermentrack/utils/make_secretsettings.sh
 #
 # Move the database to a new location to make it easier to mount volumes. docker does not behave well when working with single files.
@@ -72,6 +79,7 @@ ENV HOME="/home/fermentrack"
 ENV SHELL="/bin/bash"
 ENV PYTHONPATH=":/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USER=fermentrack
+ENV DOCKER=1
 RUN pip install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
 USER fermentrack
 WORKDIR /home/fermentrack/fermentrack
@@ -92,9 +100,8 @@ RUN rm -fr /home/fermentrack/fermentrack-tools
 RUN apt-get remove -y \
   libbluetooth-dev \
   ca-certificates \
-  build-essential \
-  git-core \
-  nano
+  build-essential
+#RUN apt-get cleanup -y
 #
 # Start the supervisor
 #
