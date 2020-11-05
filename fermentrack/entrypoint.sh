@@ -23,12 +23,24 @@ chown -R fermentrack:fermentrack /home/fermentrack/fermentrack/data
 chown -R fermentrack:fermentrack /home/fermentrack/fermentrack/log
 
 #
+# Print image version
+#
+echo "Version of main linux packages installed in image:"
+echo "****************************************************************"
+cat /etc/issue
+/usr/sbin/nginx -v
+redis-server -v
+python -V
+echo "Image build date: "
+cat /home/fermentrack/build_info
+
+#
 # Start NGINX
 #
-# TODO: Run as non root
-#
 echo "Starting NGINX"
+sudo -u nginx /bin/bash <<EOF
 /usr/sbin/nginx -g "daemon off;" &
+EOF
 
 #
 # Start REDIS
@@ -36,7 +48,9 @@ echo "Starting NGINX"
 # TODO: Run as non root
 #
 echo "Starting REDIS"
+sudo -u redis /bin/bash <<EOF
 redis-server > /dev/null &
+EOF
 
 #
 # Start fermentrack, running as fermentrack user
@@ -47,17 +61,18 @@ export DOCKER=yes
 export USE_DOCKER=true
 cd /home/fermentrack/fermentrack
 source /home/fermentrack/venv/bin/activate
-#
+
 echo "Collecting static files"
 python manage.py collectstatic --noinput 
 echo "Applying database migration"
 python manage.py migrate --noinput
-#
+
 echo "Version/Source of fermentrack installed in image:"
 echo "****************************************************************"
 git remote -v
 echo ""
 git log -n 1
 echo "****************************************************************"
+
 circusd circus.ini
 EOF
