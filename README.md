@@ -8,7 +8,7 @@ In the future the version tag will be used to track the base installation, linux
 
 - v0.1.0 = fermentrack release 4d8d89b from 22 Aug 2020 (testing)
 - v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
-- v0.3.0 = todo, waiting for PR to be merged into fermentrack:master for the database location (this will make it possible to do normal git updates)
+- v0.3.0 = todo, waiting for PR to be merged into fermentrack:master for the database location (this will make it possible to do normal git updates based on main repo)
 
 ## Single docker-image for Fermentrack (non-offical)
 
@@ -20,13 +20,13 @@ So I belive that there will be a need for both options based on what docker supp
 
 **The target for this image is a standard x86 linux host (not raspberry pi)**
 
-I looked at a few docker images for fermentrack but they where quite crude and just ran the installation scripts. My approach was to base it on the manual installation steps I use for setting up the development environment. I have tried to mimic the normal installation procedure with a few exceptions in order to have a better fit towards docker. This is however my first attempt to create a docker build process so there are probably several improvements to be made.
+I looked at a few docker images for fermentrack (available on docker hub) but they where quite crude and just ran the installation scripts and most of them would not build. My approach was to base it on the manual installation steps I use for setting up the development environment. I have tried to mimic the normal installation procedure with a few exceptions in order to have a better fit towards docker. This is however my first attempt to create a docker build process so there are probably several improvements to be made.
 
 I have modified the standard installation in the following way: 
 
 - Database file (db.sqlite3) is moved to a subdirectory called db in order to have a volume mount point (this is done since docker is not really good at handling a single file outside the container)
-- Redis and Nginx will run as non root user for increased security. Port 8080 will be exposed inside the container since ports below 1024 requires root access.
-- Most functions in fermentrack will work, including GIT upgrades. There are a few things that will need to be tested in relation to serial/bluetooth configuration.
+- Redis and Nginx will run as non root user for increased security. Port 8080 will be exposed inside the container since ports below 1024 requires root access. This is not a problem since we can expose any port outside the container. 
+- Most functions in fermentrack should work, including GIT upgrades. There are a few things that will need to be tested in relation to serial/bluetooth configuration that will require more changes to in the docker container.
 - Validations have been added to check that data and db directories are mounted, otherwise it will not start. 
 - Access righs on mounted volumes as well as database migrations are done before fermentrack starts.
 - During startup you can also see what git repo is used as source as well as the latest version tag. 
