@@ -4,14 +4,19 @@ If you want to know more about Fermentrack please go to [https://docs.fermentrac
 
 NOTE! This is still under testing/development and might not work as expected. 
 
-I will figure out a way to tag these versions with the fermentrack release version to avoid confusion. But here is the version mapping so far:
+In the future the version tag will be used to track the base installation, linux version, nginx, redis python etc. There will most likley be a new build every 3-6 months to include new security fixes.
 
-v0.1.0 = fermentrack release 4d8d89b from 22 Aug 2020
-v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
+- v0.1.0 = fermentrack release 4d8d89b from 22 Aug 2020 (testing)
+- v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
+- v0.3.0 = todo, waiting for PR to be merged into fermentrack:master for the database location (this will make it possible to do normal git updates)
 
-## My first attempt to create a dockerfile for Fermentrack
+## Single docker-image for Fermentrack (non-offical)
 
-I wanted to move my installation to a normal x86 server in order to improve my possibilities to make backup of the database and brew logs. I have had one to many crashes where I lost most of the data. Since I have added some code to hide the git options I'm using my development branch of fermentrack to create this image. If you want the main repository you need to build it yourself, just edit the dockerfile (the command is there, just enable the one you want).
+I wanted to move my installation to a normal x86 server in order to improve my possibilities to make backup of the database and brew logs. I have had one to many crashes where I lost most of the data. Since I have added some code to hide the git options I'm using my development branch of fermentrack to create this image. 
+
+There is an official version of docker for fermentrack on the way but that takes a differnt approach than this one. The offical will be based on docker-compose and use multiple containers. My approach uses a single container since I dont have docker-compose support on my NAS which i use to runt the container. 
+
+So I belive that there will be a need for both options based on what docker support your server/nas/workstation has. My intention is to keep this updated and as close to the offical docker installation as possible. I'm also one of the contributors to fermentrack.
 
 **The target for this image is a standard x86 linux host (not raspberry pi)**
 
@@ -19,19 +24,17 @@ I looked at a few docker images for fermentrack but they where quite crude and j
 
 I have modified the standard installation in the following way: 
 
-* Database file (db.sqlite3) is moved to a subdirectory called db in order to have a volume mount point (this is done since docker is not really good at handling a single file outside the container)
-* I'm not using cron to manage the circus jobs, instead this is moved to the supervisor process
-* At startup the migration job is run once to make sure the database is updated correctly. This should make it smooth to upgrade to a new version that require schema changes. It also applies the correct access rights for mounted volumes.
-* Options for GIT update and checking for the latest baseline is now disabled, git upgrade will most likley break the installation since I have moved the location of the database. 
-
-I plan to make the following changes to the installation in order to make it more smooth;
-
-* Show notification if new docker image exists
+- Database file (db.sqlite3) is moved to a subdirectory called db in order to have a volume mount point (this is done since docker is not really good at handling a single file outside the container)
+- Redis and Nginx will run as non root user for increased security. Port 8080 will be exposed inside the container since ports below 1024 requires root access.
+- Most functions in fermentrack will work, including GIT upgrades. There are a few things that will need to be tested in relation to serial/bluetooth configuration.
+- Validations have been added to check that data and db directories are mounted, otherwise it will not start. 
+- Access righs on mounted volumes as well as database migrations are done before fermentrack starts.
+- During startup you can also see what git repo is used as source as well as the latest version tag. 
 
 The following functions are not yet tested (but should work if the USB devices are exported into the container);
 
-* Flashing firmware via USB/Serial
-* TILT / Bluetooth support (I dont own a tilt)
+- Flashing firmware via USB/Serial
+- TILT / Bluetooth support (I dont own a tilt)
 
 ## Installation
 
@@ -45,7 +48,7 @@ The following VOLUMES should be mounted for the container;
 
 The follwoing PORTS should be mapped for the container;
 
-* YOUR PORT:80
+* YOUR PORT:8080
 
 Any suggestions on improvements are welcome, and please note that this is not tested enough to ensure stability, please backup your data files before testing. I take no responsibility for lost data. The project is made available as is. 
 
@@ -54,8 +57,3 @@ Good luck!
 ## Troubleshooting
 
 See Issues on github for known problems and options.
-
-
-
-
-

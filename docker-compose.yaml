@@ -6,8 +6,8 @@ services:
     container_name: fermentrack
     restart: always
     ports:
-      - "81:80"
+      - "81:8080"
     volumes:
+        - ./volumes/db:/home/fermentrack/fermentrack/db
         - ./volumes/data:/home/fermentrack/fermentrack/data
         - ./volumes/log:/home/fermentrack/fermentrack/log
-        - ./volumes/db:/home/fermentrack/fermentrack/db
