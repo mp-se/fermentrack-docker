@@ -38,11 +38,11 @@ WORKDIR /home/fermentrack
 USER fermentrack:fermentrack
 #
 # Use this for using the master branch from thorrak (beware that running git update from the repository will break the installation)
-#RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
+RUN git clone -b dev https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
 #
 # Use my development branch to include changes that blocks git upgrades that otherwise will break the setup (especially db location). 
 # I will keep this branch up to date with the thorrak master branch until I can test/merge the needed changes.
-RUN git clone -b dbsubdir2 https://github.com/mp-se/fermentrack.git /home/fermentrack/fermentrack
+#RUN git clone -b dbsubdir2 https://github.com/mp-se/fermentrack.git /home/fermentrack/fermentrack
 RUN /home/fermentrack/fermentrack/utils/make_secretsettings.sh
 #
 # Setup python and install the packages
@@ -53,7 +53,7 @@ RUN pip install virtualenv
 RUN virtualenv venv
 ENV VIRTUAL_ENV="/home/fermentrack/venv"
 ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin"
-ENV PYTHONPATH=":/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
+#ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 RUN pip install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
 #
 # Setup nginx and update config to point towards fermentrack. 
@@ -78,6 +78,7 @@ RUN rm -fR /home/fermentrack/fermentrack/data
 #
 WORKDIR /home/fermentrack
 USER root
+RUN date >> /home/fermentrack/build_info
 ENTRYPOINT ["/home/fermentrack/entrypoint.sh"]
 CMD [""]
 # EOF

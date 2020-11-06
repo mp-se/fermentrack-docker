@@ -61,6 +61,7 @@ export DOCKER=yes
 export USE_DOCKER=true
 cd /home/fermentrack/fermentrack
 source /home/fermentrack/venv/bin/activate
+export PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 
 echo "Collecting static files"
 python manage.py collectstatic --noinput 
