@@ -11,3 +11,5 @@ services:
         - ./volumes/db:/home/fermentrack/fermentrack/db
         - ./volumes/data:/home/fermentrack/fermentrack/data
         - ./volumes/log:/home/fermentrack/fermentrack/log
+        - /dev:/dev
+    privileged: true
