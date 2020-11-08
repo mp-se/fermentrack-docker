@@ -39,6 +39,7 @@ USER fermentrack:fermentrack
 #
 # Use this for using the master branch from thorrak (beware that running git update from the repository will break the installation)
 RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
+RUN /home/fermentrack/fermentrack/utils/make_secretsettings.sh
 #
 # Setup python and install the packages
 #
