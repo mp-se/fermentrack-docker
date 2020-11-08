@@ -14,6 +14,18 @@ else
     exit -1
 fi
 
+if [ -f /home/fermentrack/fermentrack/db/secretsettings.py ]
+then
+    echo "Copying secret settings from db folder to image"
+    cp /home/fermentrack/fermentrack/db/secretsettings.py /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py
+elif [ ! -f /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py ]
+then
+    echo "No secret file found, creating one"
+    sudo -u fermentrack /home/fermentrack/fermentrack/utils/make_secretsettings.sh
+    echo "Saving copy of secretsfile to db folder"
+    cp /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py /home/fermentrack/fermentrack/db/secretsettings.py
+fi
+
 #
 # Secure that access rights for all mounted volumes are correct
 #
@@ -57,7 +69,6 @@ EOF
 #
 echo "Starting Fermentrack"
 sudo -u fermentrack /bin/bash <<EOF
-export DOCKER=yes
 export USE_DOCKER=true
 cd /home/fermentrack/fermentrack
 source /home/fermentrack/venv/bin/activate
@@ -75,5 +86,6 @@ echo ""
 git log -n 1
 echo "****************************************************************"
 
+echo "Starting circus deamon"
 circusd circus.ini
 EOF
