@@ -57,8 +57,6 @@ EOF
 #
 # Start REDIS
 #
-# TODO: Run as non root
-#
 echo "Starting REDIS"
 sudo -u redis /bin/bash <<EOF
 redis-server > /dev/null &
@@ -83,7 +81,7 @@ echo "Version/Source of fermentrack installed in image:"
 echo "****************************************************************"
 git remote -v
 echo ""
-git log -n 1
+git log -n 1 --pretty=short
 echo "****************************************************************"
 
 echo "Starting circus deamon"
