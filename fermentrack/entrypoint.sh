@@ -59,6 +59,7 @@ EOF
 #
 echo "Starting REDIS"
 sudo -u redis /bin/bash <<EOF
+cd /var/lib/redis
 redis-server > /dev/null &
 EOF
 
