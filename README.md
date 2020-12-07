@@ -9,6 +9,7 @@ In the future the version tag will be used to track the base installation, linux
 - v0.1.0 = fermentrack release 4d8d89b from 22 Aug 2020 (testing)
 - v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
 - v0.3.0 = fermentrack release 99495bf from 7 Nov 2020, most functions should work now (bluetooth is still not verified)
+- v0.4.0 = fermentrack release 3f6a8a1 from 11 Nov 2020, locked version of numpy since the latest version gave wrong result in gravity calculation
 
 ## Background
 
