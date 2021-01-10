@@ -29,17 +29,20 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   nano \
   usbutils 
 #
-# Create the users, group and directories for git. Its needed for fermentrack to work correcly
+# Create the users, group and directories for git. Its needed for fermentrack to work correcly.
+# User fermentrack is added to the dialout group on order to have access to firmware flashing when running as non root. 
 #
 RUN groupadd -g 2000 fermentrack && useradd -m -u 2001 -g fermentrack fermentrack
 RUN groupadd -g 2002 nginx && useradd --system -M -u 2003 -g nginx nginx -s /usr/sbin/nologin
+RUN usermod -a -G dialout fermentrack
 #
 # Install fermentrack, just make a copy of git and we will handle the run commands in the supervisor
 #
 WORKDIR /home/fermentrack
 USER fermentrack:fermentrack
 #
-# Use this for using the master branch from thorrak (beware that running git update from the repository will break the installation)
+# Clone the master branch of fermentrack into the image (updates will work afterwards)
+#
 RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/fermentrack
 #
 # Setup python and install the packages

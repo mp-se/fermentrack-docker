@@ -10,6 +10,7 @@ In the future the version tag will be used to track the base installation, linux
 - v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
 - v0.3.0 = fermentrack release 99495bf from 7 Nov 2020, most functions should work now (bluetooth is still not verified)
 - v0.4.0 = fermentrack release 3f6a8a1 from 11 Nov 2020, locked version of numpy since the latest version gave wrong result in gravity calculation
+- v0.5.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
 
 ## Background
 
@@ -34,9 +35,6 @@ I have modified the standard installation in the following way:
 - Access rights on mounted volumes as well as database migrations are done before fermentrack starts at startup.
 - During startup you can also see what git repo is used as source, linux kernel, nginx and redis versions and when docker image was built. 
 
-The following functions are not yet tested (but should work if the USB devices are exported into the container);
-- TILT / Bluetooth support (I dont own a tilt)
-
 ## Installation
 
 You can download the docker image from here .... Docker Hub under mpse2/fermentrack-docker
@@ -48,11 +46,16 @@ The following VOLUMES should be mounted for the container;
 - YOUR PATH:/home/fermentrack/fermentrack/db
 - /dev:/dev 
 
-/dev is for serial integration and firmware flashing and can be skipped if you dont what that functionallity. Please note that for this to work the container must be run in priviliged mode. So it might be a good idea to enable that only when you want to do flashing.
+/dev is exported for the serial integration and firmware flashing. If you dont use these functions you can skip exporting volume mapping. it's required to export the whole catalog since fermentrack scans for the device that is attached. 
+
+The following functions will require higher priviligies in order to work.
+
+- Firmware flashing will require that the container is run in priviligied mode. 
+- Bluetooth support requires both priviligied mode and network = "host". This means that the portmapping is ignored and fermentrack needs to be accessed via port 8080.
 
 **Note that the db directory should contain db.sqlite3 and secretsetting.py**
 
-The following PORTS should be mapped for the container;
+The following PORTS should be mapped for the container (note that this is not used if network = host);
 
 - YOUR PORT:8080
 
