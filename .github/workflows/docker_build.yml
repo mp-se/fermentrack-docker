@@ -24,8 +24,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./fermentrack/Dockerfile
+          context: ./fermentrack
+          file: ./Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: mpse2/fermentrack:dev
