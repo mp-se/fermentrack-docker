@@ -3,7 +3,6 @@ name: 'Build & Push to Docker Hub'
 on:
   push:
     branches:
-      - dev
       - master
 
 jobs:
@@ -13,11 +12,6 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-        with:
-          platforms: all
       -
         name: Dockerhub login
         env:
