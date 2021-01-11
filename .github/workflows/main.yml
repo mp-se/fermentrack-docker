@@ -35,7 +35,8 @@ jobs:
         name: Build dockerfile (armv7/amd64/arm64)
         run: |
           docker buildx build \
-          --platform=linux/arm/v7,linux/amd64,linux/i386 \
+#         --platform=linux/arm/v7,linux/amd64,linux/i386 \
+          --platform=linux/i386 \
           --output "type=image,push=true" \
           --file ./fermentrack/Dockerfile . \
           --tag mpse2/fermentrack:latest
