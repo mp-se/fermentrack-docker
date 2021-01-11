@@ -1,11 +1,12 @@
 #
 # Dockerfile for Fermentrack image
 #
-FROM ubuntu:groovy
+FROM debian:buster
 EXPOSE 8080/tcp
 #
 # Install the needed dependecies, some are only used at the installphase so those will be removed later.
 #
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
   nginx \
   redis-server \
@@ -49,14 +50,14 @@ RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/ferme
 #
 USER root
 WORKDIR /home/fermentrack
-RUN pip install virtualenv
+RUN pip3 install virtualenv
 RUN virtualenv venv
 ENV VIRTUAL_ENV="/home/fermentrack/venv"
-ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin"
+ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin"
 ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USE_DOCKER=true
-RUN pip install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
-RUN pip install numpy==1.18.4
+RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
+RUN pip3 install numpy==1.18.4
 #
 # Setup nginx and update config to point towards fermentrack. 
 #
