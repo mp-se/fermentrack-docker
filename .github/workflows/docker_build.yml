@@ -57,6 +57,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./fermentrack
           file: ./fermentrack/Dockerfile
-          platforms: linux/arm32v7,linux/amd64
+          platforms: linux/386
           push: true
           tags: ${{ steps.prep.outputs.tags }}
