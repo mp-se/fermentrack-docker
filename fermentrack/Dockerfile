@@ -1,5 +1,5 @@
 #
-# Dockerfile for Fermentrack image
+# Dockerfile for Fermentrack image, this version can be generated for both amd64/i386/armv7
 #
 FROM debian:buster
 EXPOSE 8080/tcp
@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
   nginx \
   redis-server \
-  python3 \
+  python3.7 \
   python3-pip \
   python3-dev \
   python3-venv \
@@ -26,6 +26,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   git-core \
   avrdude \
   sudo \
+  libffi-dev \
+  libssl-dev \
 # For debugging
   nano \
   usbutils 
