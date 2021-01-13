@@ -1,3 +1,6 @@
 volumes/db/*
 volumes/log/*
 volumes/data/*
+docs/.env
+docs/build
+.env

@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   sudo \
   libffi-dev \
   libssl-dev \
+  libcap2-bin \
 # For debugging
   nano \
   usbutils 

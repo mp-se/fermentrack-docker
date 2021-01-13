@@ -74,7 +74,7 @@ then
 else 
     echo "Container is NOT running in priviligied mode"
     # We need to remove the setcap options or python will fail to start fermentrack
-    setcap -r /usr/bin/python3.7
+   setcap -r /usr/bin/python3.7
 fi
 
 #

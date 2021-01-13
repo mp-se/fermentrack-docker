@@ -1,7 +1,7 @@
 version: '3'
 services:
   fermentrack:
-    image: fermentrack-docker
+    image: mpse2/fermentrack-docker
     build: ./fermentrack
     container_name: fermentrack
     restart: always
