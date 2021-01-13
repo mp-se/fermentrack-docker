@@ -56,7 +56,7 @@ WORKDIR /home/fermentrack
 RUN pip3 install virtualenv
 RUN virtualenv venv
 ENV VIRTUAL_ENV="/home/fermentrack/venv"
-ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin"
+ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USE_DOCKER=true
 RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
