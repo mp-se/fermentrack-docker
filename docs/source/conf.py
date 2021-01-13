@@ -20,7 +20,7 @@
 project = 'Fermentack-docker'
 copyright = '2021, Magnus Persson'
 author = 'Magnus Persson'
-
+master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
