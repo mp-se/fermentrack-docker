@@ -1,6 +1,6 @@
 # Fermentrack Docker Image
 
-If you want to know more about Fermentrack please go to [https://docs.fermentrack.com/]https://docs.fermentrack.com/.
+If you want to know more about Fermentrack please go to https://docs.fermentrack.com/.
 
 NOTE! This is still under testing/development and might not work as expected. 
 
@@ -25,7 +25,7 @@ These versions only exist for amd64 target and are based on ubuntu stable releas
 Documentation has now been moved to the docs folder of the repository, here you can find the history and instructions for build and installation.
 Any suggestions on improvements are welcome. Pplease backup your data files before testing. I take no responsibility for lost data. The project is made available as is. 
 
-You can also read the documentation online at; [https://fermentrack-docker.readthedocs.io/]https://fermentrack-docker.readthedocs.io/
+You can also read the documentation online at; https://fermentrack-docker.readthedocs.io/
 
 Good luck!
 
