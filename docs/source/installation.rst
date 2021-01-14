@@ -1,6 +1,9 @@
 Installing docker image
 -----------------------
 
+Requirements for installation
+=============================
+
 Pre-requsities, install the following docker components according to installation instructions for your platform:
 
 * Docker (or DockerDesktop)
@@ -8,9 +11,12 @@ Pre-requsities, install the following docker components according to installatio
 
 The following target platforms are tested so far; 
 
-* linux/armv7
-* linux/amd64
-* linux/i386
+* linux/armv7   (Tested on Raspberry PI)
+* linux/amd64   (Tested on Ubuntu)
+* linux/i386    ()
+
+Installation via docker-compose
+===============================
 
 To install and start the docker image via docker-compose you need to create a .yaml file that contains the right configuration for your system; 
 
@@ -120,3 +126,14 @@ If everything is working as planned you should see a similar startup screen like
     fermentrack    |     Tilt Pro Support (and other things)
     fermentrack    | ****************************************************************
     fermentrack    | Starting circus deamon
+
+Things to consider when running in privliged mode
+=================================================
+
+Some functions require the container to be run in privliged mode mainly to access resouces of the host system. This include Bluetooth and USB devices.
+
+If the system is run in priviliged mode using the host network the following network ports needs to be available for the container to start;
+
+* 8080 webserver 
+* 8123 django server
+* 6379 redis server
