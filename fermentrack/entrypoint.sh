@@ -70,10 +70,12 @@ echo "Checking if the container is running in priviliged mode"
 if setcap cap_net_raw,cap_net_admin+eip /usr/bin/python3.7 && python3 -h > /dev/null;
 then
     echo "Container is running in priviligied mode"
+# We need to remove the setcap options or python will fail to start fermentrack. This might fail on an older linux kernel and stop the script.
+elif setcap -r /usr/bin/python3.7; 
+then 
+    echo "Container is NOT running in priviligied mode (1)"
 else 
-    echo "Container is NOT running in priviligied mode"
-    # We need to remove the setcap options or python will fail to start fermentrack
-   setcap -r /usr/bin/python3.7
+    echo "Container is NOT running in priviligied mode (2)"
 fi
 
 #
