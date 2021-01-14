@@ -67,8 +67,7 @@ EOF
 # Setting priviligies required for bluetooth support. If we cannot start python we are not running in priviligied mode.
 #
 echo "Checking if the container is running in priviliged mode"
-setcap cap_net_raw,cap_net_admin+eip /usr/bin/python3.7
-if python3 -h > /dev/null;
+if setcap cap_net_raw,cap_net_admin+eip /usr/bin/python3.7 && python3 -h > /dev/null;
 then
     echo "Container is running in priviligied mode"
 else 
