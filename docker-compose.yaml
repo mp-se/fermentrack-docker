@@ -17,3 +17,10 @@ services:
         - ./volumes/data:/home/fermentrack/fermentrack/data
         - ./volumes/log:/home/fermentrack/fermentrack/log
         - /dev:/dev
+    healthcheck:
+        # Given that we don't have a pidfile we can check for circusd, nor pgrep,
+        # we can use pidof to ensure python is running at least
+        test: ["CMD-SHELL", "pidof python"]
+        interval: 60s
+        timeout: 10s
+        retries: 3
