@@ -10,8 +10,8 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/armv7
 
-- v0.6.0 = **Under development, switched to automatic build via github actions, added documentation.**
-
+- v0.6.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
+ 
 These versions only exist for amd64 target and are based on ubuntu stable release
 
 - v0.5.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update

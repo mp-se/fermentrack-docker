@@ -3,7 +3,9 @@ name: push
 on:
   push:
     branches: master
-
+  release:
+    types: [published]
+    
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -34,7 +36,9 @@ jobs:
           # Set output parameters.
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
-          
+        
+          echo $GITHUB_REF, $SHORTREF, $VERSION, $TAGS
+    
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
         with:
