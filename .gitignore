@@ -4,3 +4,4 @@ volumes/data/*
 docs/.env
 docs/build
 .env
+test/*
