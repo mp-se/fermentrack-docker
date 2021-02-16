@@ -80,6 +80,13 @@ COPY entrypoint.sh /home/fermentrack/entrypoint.sh
 RUN chmod 700 /home/fermentrack/entrypoint.sh
 RUN rm -fR /home/fermentrack/fermentrack/data
 #
+# Setup healtcheck
+#
+USER root
+COPY healthcheck.sh /home/fermentrack/healthcheck.sh
+RUN chmod 700 /home/fermentrack/healthcheck.sh
+HEALTHCHECK --interval=60s --timeout=30s --retries=10 CMD /home/fermentrack/healthcheck.sh
+#
 # Start the supervisor
 #
 WORKDIR /home/fermentrack
