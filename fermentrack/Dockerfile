@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   curl \
 # For debugging
   nano \
-  usbutils 
+  usbutils
 #
 # Create the users, group and directories for git. Its needed for fermentrack to work correcly.
 # User fermentrack is added to the dialout group on order to have access to firmware flashing when running as non root. 
