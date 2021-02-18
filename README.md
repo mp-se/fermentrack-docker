@@ -10,10 +10,11 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/armv7
 
-- v0.6.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
+- v0.7.0 = added script for debugging tilt connections + healthcheck for nginx/redis/django
  
 These versions only exist for amd64 target and are based on ubuntu stable release
 
+- v0.6.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
 - v0.5.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
 - v0.4.0 = fermentrack release 3f6a8a1 from 11 Nov 2020, locked version of numpy since the latest version gave wrong result in gravity calculation
 - v0.3.0 = fermentrack release 99495bf from 7 Nov 2020, most functions should work now (bluetooth is still not verified)
@@ -23,6 +24,7 @@ These versions only exist for amd64 target and are based on ubuntu stable releas
 ## Documentation
 
 Documentation has now been moved to the docs folder of the repository, here you can find the history and instructions for build and installation.
+
 Any suggestions on improvements are welcome. Pplease backup your data files before testing. I take no responsibility for lost data. The project is made available as is. 
 
 You can also read the documentation online at; https://fermentrack-docker.readthedocs.io/

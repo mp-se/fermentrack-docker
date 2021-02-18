@@ -29,9 +29,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libffi-dev \
   libssl-dev \
   libcap2-bin \
+  curl \
 # For debugging
   nano \
-  usbutils 
+  usbutils
 #
 # Create the users, group and directories for git. Its needed for fermentrack to work correcly.
 # User fermentrack is added to the dialout group on order to have access to firmware flashing when running as non root. 
@@ -53,6 +54,7 @@ RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/ferme
 #
 USER root
 WORKDIR /home/fermentrack
+RUN pip3 install --upgrade pip
 RUN pip3 install virtualenv
 RUN virtualenv venv
 ENV VIRTUAL_ENV="/home/fermentrack/venv"
@@ -79,6 +81,19 @@ USER root
 COPY entrypoint.sh /home/fermentrack/entrypoint.sh
 RUN chmod 700 /home/fermentrack/entrypoint.sh
 RUN rm -fR /home/fermentrack/fermentrack/data
+#
+# Setup healtcheck
+#
+USER root
+COPY healthcheck.sh /home/fermentrack/healthcheck.sh
+RUN chmod 700 /home/fermentrack/healthcheck.sh
+HEALTHCHECK --interval=60s --timeout=10s --retries=3 CMD /home/fermentrack/healthcheck.sh
+#
+# Copy scripts for debugging (tilt)
+#
+USER root
+COPY tiltview.py /home/fermentrack/tiltview.py
+RUN pip3 install beacontools beaconscanner
 #
 # Start the supervisor
 #

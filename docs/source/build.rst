@@ -16,5 +16,10 @@ A configuration file for docker compose is included in the repository and the ea
 But if you want to build for other architectures you can use buildx for that:
 
 ``docker buildx build ./fermentrack --platform linux/amd64``
+``docker buildx build ./fermentrack --platform linux/arm/v7``
+
+This is a good guide for using buildx with docker and arm.
+
+https://community.arm.com/developer/tools-software/tools/b/tools-software-ides-blog/posts/getting-started-with-docker-for-arm-on-linux
 
 **Tested platforms are; armv7, i386 amd64** but any platform that is supported by the base image debian:buster should work. 

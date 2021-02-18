@@ -29,4 +29,5 @@ data a couple of times I decided to start this project.
    installation
    build
    about 
+   troubleshooting
    

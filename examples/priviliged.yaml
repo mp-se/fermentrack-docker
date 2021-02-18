@@ -1,0 +1,15 @@
+# Rename this file to docker-compose.yaml
+version: '3'
+services:
+  fermentrack:
+    image: mpse2/fermentrack-docker
+    build: ./fermentrack
+    container_name: fermentrack
+    restart: always
+    network_mode: "host"
+    privileged: true
+    volumes:
+        - ./volumes/db:/home/fermentrack/fermentrack/db
+        - ./volumes/data:/home/fermentrack/fermentrack/data
+        - ./volumes/log:/home/fermentrack/fermentrack/log
+        - /dev:/dev
