@@ -63,6 +63,7 @@ ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home
 ENV USE_DOCKER=true
 RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
 RUN pip3 install numpy==1.18.4
+RUN chown fermentrack:fermentrack /home/fermentrack/venv
 #
 # Setup nginx and update config to point towards fermentrack. 
 #
