@@ -11,7 +11,7 @@ services:
     #privileged: true
     # portmapping is ignored when network_mode = host
     ports:
-      - "81:8080"
+      - "81:8081"
     volumes:
         - ./volumes/db:/home/fermentrack/fermentrack/db
         - ./volumes/data:/home/fermentrack/fermentrack/data
