@@ -61,7 +61,8 @@ ENV VIRTUAL_ENV="/home/fermentrack/venv"
 ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USE_DOCKER=true
-RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements.txt
+#RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/base.txt
+RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/docker-production.txt
 RUN pip3 install numpy==1.18.4
 RUN chown -R fermentrack:fermentrack /home/fermentrack/venv
 #
