@@ -2,8 +2,6 @@
 
 If you want to know more about Fermentrack please go to https://docs.fermentrack.com/.
 
-NOTE! This is still under testing/development and might not work as expected. 
-
 In the future the version tag will be used to track the base installation, linux version, nginx, redis python etc. There will most likley be a new build every 3-6 months to include new security fixes from the core components. But you can always fork the repository and do your own build if you want. 
 
 These are the builds that have been released so far.
