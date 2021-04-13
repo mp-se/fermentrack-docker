@@ -45,6 +45,6 @@ jobs:
           context: ./fermentrack
           file: ./fermentrack/Dockerfile
 #         platforms: linux/386,linux/arm/v7,linux/amd64
-          platforms: linux/arm, linux/adm64
+          platforms: linux/adm64
           push: false
           tags: ${{ steps.prep.outputs.tags }}
