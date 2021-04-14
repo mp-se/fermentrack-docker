@@ -8,8 +8,6 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/armv7
 
-__Currently the buildx for arm target is failing both on my local machine and github workflow so this has been disabled for now__
-
 - v0.8.0 = Updated to work with fermentrack release from 5 Apr 2021. New path to static django files and path to requirements.txt
  
 These versions only exist for amd64 target and are based on ubuntu stable release
