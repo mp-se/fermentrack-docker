@@ -16,7 +16,7 @@ A configuration file for docker compose is included in the repository and the ea
 But if you want to build for other architectures you can use buildx for that:
 
 ``docker buildx build ./fermentrack --platform linux/amd64``
-``docker buildx build ./fermentrack --platform linux/arm/v7``
+``docker buildx build ./fermentrack --platform linux/arm64``
 
 This is a good guide for using buildx with docker and arm.
 
