@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libcap2-bin \
   curl \
 # For debugging
+# procps
+# net-tools
   nano \
   usbutils
 #
@@ -54,6 +56,8 @@ RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/ferme
 #
 USER root
 WORKDIR /home/fermentrack
+# With the introduction of docker it uses /app for launching processes
+RUN ln -s /home/fermentrack/fermentrack /app
 RUN pip3 install --upgrade pip
 RUN pip3 install virtualenv
 RUN virtualenv venv
@@ -61,9 +65,10 @@ ENV VIRTUAL_ENV="/home/fermentrack/venv"
 ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USE_DOCKER=true
+RUN pip3 install --no-binary numpy numpy==1.18.4
+RUN pip3 install --no-binary pyzmq pyzmq==19.0.1
+RUN pip3 install circus
 RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/base.txt
-#RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/docker-production.txt
-RUN pip3 install numpy==1.18.4
 RUN chown -R fermentrack:fermentrack /home/fermentrack/venv
 #
 # Setup nginx and update config to point towards fermentrack. 

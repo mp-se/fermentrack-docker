@@ -101,5 +101,6 @@ git log -n 1 --pretty=short
 echo "****************************************************************"
 
 echo "Starting circus deamon"
-circusd circus.ini
+#circusd --log-level DEBUG circus-docker.ini
+circusd circus-docker.ini
 EOF
