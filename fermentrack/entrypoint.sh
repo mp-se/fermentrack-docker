@@ -14,18 +14,6 @@ else
     exit -1
 fi
 
-if [ -f /home/fermentrack/fermentrack/db/secretsettings.py ]
-then
-    echo "Copying secret settings from db folder to image"
-    cp /home/fermentrack/fermentrack/db/secretsettings.py /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py
-elif [ ! -f /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py ]
-then
-    echo "No secret file found, creating one"
-    sudo -u fermentrack /home/fermentrack/fermentrack/utils/make_secretsettings.sh
-    echo "Saving copy of secretsfile to db folder"
-    cp /home/fermentrack/fermentrack/fermentrack_django/secretsettings.py /home/fermentrack/fermentrack/db/secretsettings.py
-fi
-
 #
 # Secure that access rights for all mounted volumes are correct
 #
@@ -83,7 +71,18 @@ fi
 #
 echo "Starting Fermentrack"
 sudo -u fermentrack /bin/bash <<EOF
-export USE_DOCKER=true
+export DJANGO_SETTINGS_MODULE=fermentrack_django.settings
+export DJANGO_SECRET_KEY=`cat /home/fermentrack/fermentrack/DJANGO_SECRET_KEY`
+export DJANGO_ADMIN_URL=`cat /home/fermentrack/fermentrack/DJANGO_ADMIN_URL`/
+export DJANGO_ALLOWED_HOSTS=*
+export USE_DOCKER=True
+export DJANGO_SECURE_SSL_REDIRECT=False
+export DJANGO_SERVER_EMAIL=
+export MAILGUN_API_KEY=
+export MAILGUN_DOMAIN=
+export DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+export WEB_CONCURRENCY=4
+export ENV_DJANGO_VERSION=1
 cd /home/fermentrack/fermentrack
 source /home/fermentrack/venv/bin/activate
 export PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
