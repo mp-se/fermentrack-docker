@@ -55,20 +55,21 @@ RUN git clone https://github.com/thorrak/fermentrack.git /home/fermentrack/ferme
 # Setup python and install the packages
 #
 USER root
-WORKDIR /home/fermentrack
 # With the introduction of docker it uses /app for launching processes
 RUN ln -s /home/fermentrack/fermentrack /app
-RUN pip3 install --upgrade pip
-RUN pip3 install virtualenv
-RUN virtualenv venv
+WORKDIR /home/fermentrack
+USER fermentrack
 ENV VIRTUAL_ENV="/home/fermentrack/venv"
-ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin:/sbin"
+ENV PATH="/home/fermentrack/venv/bin:/usr/bin:/usr/sbin:/bin:/sbin:/home/fermentrack/.local/bin"
 ENV PYTHONPATH=":;/home/fermentrack/fermentrack;/home/fermentrack/venv/bin;/home/fermentrack/venv/lib/python3.8/site-packages"
 ENV USE_DOCKER=true
-RUN pip3 install --no-binary numpy numpy==1.18.4
-RUN pip3 install --no-binary pyzmq pyzmq==19.0.1
-RUN pip3 install circus
-RUN pip3 install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/base.txt
+RUN python3 -m pip install virtualenv
+RUN virtualenv venv
+USER fermentrack
+RUN python3 -m pip install --no-binary numpy numpy==1.18.4
+RUN python3 -m pip install --no-binary pyzmq pyzmq==19.0.1
+RUN python3 -m pip install circus
+RUN python3 -m pip install --no-cache-dir -r /home/fermentrack/fermentrack/requirements/base.txt
 RUN chown -R fermentrack:fermentrack /home/fermentrack/venv
 #
 # Setup nginx and update config to point towards fermentrack. 
@@ -89,6 +90,13 @@ COPY entrypoint.sh /home/fermentrack/entrypoint.sh
 RUN chmod 700 /home/fermentrack/entrypoint.sh
 RUN rm -fR /home/fermentrack/fermentrack/data
 #
+# Generate secret key for this image build
+# 
+# This section is from the thorrak/fermentrack-tools project (installation script for fermentrack). 
+#
+RUN echo $(LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 50 | head -n 1) > /home/fermentrack/fermentrack/DJANGO_SECRET_KEY
+RUN echo $(LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 32 | head -n 1) > /home/fermentrack/fermentrack/DJANGO_ADMIN_URL
+#
 # Setup healtcheck
 #
 USER root
@@ -98,14 +106,14 @@ HEALTHCHECK --interval=60s --timeout=10s --retries=3 CMD /home/fermentrack/healt
 #
 # Copy scripts for debugging (tilt)
 #
-USER root
+USER fermentrack
 COPY tiltview.py /home/fermentrack/tiltview.py
-RUN pip3 install beacontools beaconscanner
+RUN python3 -m pip install beacontools beaconscanner
 #
 # Start the supervisor
 #
-WORKDIR /home/fermentrack
 USER root
+WORKDIR /home/fermentrack
 RUN date >> /home/fermentrack/build_info
 ENTRYPOINT ["/home/fermentrack/entrypoint.sh"]
 CMD [""]
