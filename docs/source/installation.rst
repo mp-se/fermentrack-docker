@@ -11,9 +11,41 @@ Pre-requsities, install the following docker components according to installatio
 
 The following target platforms are tested so far; 
 
-* linux/armv7   (Tested on Raspberry PI)
+* linux/arm64   (Tested on Raspberry PI)
 * linux/amd64   (Tested on Ubuntu)
-* linux/i386    ()
+
+Access rights to mounted volumes
+================================
+
+Since the container is built to run fermentrack and web server as non root there could be issues with mounted volume if the permissions are not correct.
+
+On a linux bases system the access rights are determined by the UID of the user running the process and fermentrack is using UID 2001 (user) and GID 2000 (group). 
+So a user with the same UID on the host system will need to have R+W access rights on the host for the mounted volume in order for access to work.
+
+Indications that the is insufficent access rights can be 403 errors from the web gui, graphs not showing up on active fermentations etc. 
+
+To check the access rights you will need to execute a few linux commands from within the container via a bash shell. This may differ depending on your docker host. From a linux 
+commandline this will attach to a running container and start a shell.
+
+``docker exec -it fermentrack /bin/bash``
+
+To check the permissions run these commands:
+
+``ls -al /home/fermentrack/fermentrack/``
+
+Check the permission on the folder called data.
+
+You can also check the permissions of the files in the data directory
+
+``ls -al /home/fermentrack/fermentrack/data``
+
+This is the way it should look.
+
+``drwxrwxrwx 31 fermentrack fermentrack 4096 Jun 8 01:16``
+
+This is an indication that permissions are insufficent.
+
+``drwx--x--x 31 fermentrack fermentrack 4096 Jun 8 01:16``
 
 Installation via docker-compose
 ===============================
