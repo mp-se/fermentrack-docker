@@ -12,6 +12,10 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/arm64
 
+### v0.9.0 Updated to work with fermentrack docker structure. 
+- Match environment settings with standard docker setup.
+- Updated installation for python using fermentrack user (should work better with python upgrades)
+
 ### v0.8.0 Updated to work with fermentrack release from 5 Apr 2021. 
 - New path to static django files
 - New file for python requirements
