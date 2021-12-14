@@ -70,7 +70,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/mpse2/fermentrack-docker:${{GITHUB_SHA::8}}'
+          image-ref: 'docker.io/mpse2/fermentrack-docker:latest'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
