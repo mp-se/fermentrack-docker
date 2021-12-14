@@ -1,7 +1,7 @@
 #
 # Dockerfile for Fermentrack image, this version can be generated for both amd64/i386/armv7
 #
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 EXPOSE 8080/tcp
 #
 # Install the needed dependecies, some are only used at the installphase so those will be removed later.
