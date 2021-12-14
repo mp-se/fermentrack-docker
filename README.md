@@ -12,6 +12,9 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/arm64
 
+### v0.8.1 Updated to work with fermentrack release from Dec 2021. 
+- Triggered build based on latest ferementrack release.
+
 ### v0.8.0 Updated to work with fermentrack release from 5 Apr 2021. 
 - New path to static django files
 - New file for python requirements
