@@ -47,6 +47,29 @@ jobs:
           context: ./fermentrack
           file: ./fermentrack/Dockerfile
 #         platforms: linux/386,linux/arm/v7,linux/amd64
-          platforms: linux/arm64,linux/amd64
+#          platforms: linux/arm64,linux/amd64
+          platforms: linux/amd64
           push: false
           tags: ${{ steps.prep.outputs.tags }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'mpse2/fermentrack-docker:${{ github.sha }}'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+#         severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+          severity: 'HIGH,CRITICAL'
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'trivy-results.sarif'
+          path: 'trivy-results.sarif'
+          retention-days: 5
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
