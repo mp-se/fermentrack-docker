@@ -12,6 +12,10 @@ These are the builds that have been released so far.
 
 Newer versions have switched to debian and is now support more targets i386/amd64/arm64
 
+### v1.0.0 Migrated to bullseye + python 3.9. 
+- New base image that will reduce the vulnerabilties in the image. 
+- Activated Trivy as vulnerability scanner. 
+
 ### v0.9.1 Updated to work with fermentrack release from Dec 2021. 
 - Triggered build based on latest ferementrack release.
 
