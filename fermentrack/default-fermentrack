@@ -21,7 +21,7 @@ server {
 
     # static is where we store static files
     location /static {
-      alias /home/fermentrack/fermentrack/staticfiles/;
+      alias /home/fermentrack/fermentrack/collected_static/;
       access_log off;
       expires 30s;
       log_not_found off;
