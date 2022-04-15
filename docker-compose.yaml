@@ -2,18 +2,19 @@ version: '3'
 services:
   fermentrack:
     image: mpse2/fermentrack-docker
-    build: ./fermentrack
+    build: ./fermentrack2
     container_name: fermentrack
-    restart: always
-    # Uncomment the next line if bluetooth support is going to be used.
+    restart: unless-stopped
+    # Uncomment the next line if bluetooth support is going to be used. Portmapping is ignored when network_mode = host.
     #network_mode: "host"
     # Uncomment this next line if bluetooth support and firmware flashing is used.
     #privileged: true
-    # portmapping is ignored when network_mode = host
     ports:
-      - "81:8080"
+      - "80:80"
     volumes:
-        - ./volumes/db:/home/fermentrack/fermentrack/db
-        - ./volumes/data:/home/fermentrack/fermentrack/data
-        - ./volumes/log:/home/fermentrack/fermentrack/log
-        - /dev:/dev
+      - ./volumes/db:/app/db
+      - /dev:/dev
+    #  - ./volumes/data:/app/data
+    #  - ./volumes/log:/app/log
+    #  - /var/run/dbus:/var/run/dbus
+    #  - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket

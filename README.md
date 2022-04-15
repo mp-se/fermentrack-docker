@@ -2,15 +2,15 @@
 
 If you want to know more about Fermentrack please go to https://docs.fermentrack.com/.
 
-In the future the version tag will be used to track the base installation, linux version, nginx, redis python etc. There will most likley be a new build every 3-6 months to include new security fixes from the core components. But you can always fork the repository and do your own build if you want. 
+This is the v2.x version of the image. Since fermentrack is moving to a full docker setup I have chosen to rewrite this and reuse as much as possible from the standard setup. However this variant will still be one image that has all parts included; django, nginx and redis. It will support either a sqlite database or a full postgres install just as the standard fermentrack.
 
-```
-Note! Older images are no longer compatible with Fermentrack releases after 5 April 2021. Use image v0.8 or higher
-```
+### v2.0.0 Migrated to using fermentrack docker base. 
 
-These are the builds that have been released so far.
-
-Newer versions have switched to debian and is now support more targets i386/amd64/arm64
+- Experimental release bases on fermentrack built in docker support. Hopefully easier to maintain.
+- Combines the django, redis and nginx containers into one. 
+- Use sqlite database as default
+- Will work on most platforms with minium configuration.
+- TODO: add options for supporting postgres database
 
 ### v1.0.0 Migrated to bullseye + python 3.9. 
 - New base image that will reduce the vulnerabilties in the image. 
