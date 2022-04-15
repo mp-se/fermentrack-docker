@@ -6,6 +6,8 @@ This section contains some hints that are useful to find various issues witht he
 Bluetooth/Tilt
 =====================
 
+TODO! This chapter needs to be revised!
+
 These issues can be hard to troubleshoot. First make sure you have the right permissions in order for this to work.
 
 Included in the repostory (and docker image) there is a simple python script that can find data transmitted from a Tilt (or simulator). 
