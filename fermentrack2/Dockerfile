@@ -49,6 +49,7 @@ RUN apt-get update \
   && apt-get install -y redis-server
 
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./tiltview.py /tiltview.py
 COPY ./entry /entry
 RUN chmod +x /entry
 
@@ -81,9 +82,9 @@ RUN cp /app/compose/production/django/pip.conf /etc/pip.conf
 RUN pip install --no-cache-dir -r /app/requirements/docker-production.txt
 
 #COPY --chown=django:django ./compose/production/django/entrypoint /entrypoint
-#RUN cp /app/compose/production/django/entrypoint /entrypoint
-#RUN sed -i 's/\r$//g' /entrypoint
-#RUN chmod +x /entrypoint
+RUN cp /app/compose/production/django/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
 
 # Fix mDNS resolution
 #COPY ./compose/production/django/nsswitch.conf /etc/nsswitch.conf
