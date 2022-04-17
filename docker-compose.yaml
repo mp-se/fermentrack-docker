@@ -5,16 +5,24 @@ services:
     build: ./fermentrack2
     container_name: fermentrack
     restart: unless-stopped
-    # Uncomment the next line if bluetooth support is going to be used. Portmapping is ignored when network_mode = host.
-    #network_mode: "host"
+    # Uncomment the next line if bluetooth support is going to be used. 
+    network_mode: "host"
     # Uncomment this next line if bluetooth support and firmware flashing is used.
-    #privileged: true
+    privileged: true
+    # Portmapping is ignored when network_mode = host.
     ports:
       - "80:80"
     volumes:
       - ./volumes/db:/app/db
       - /dev:/dev
-    #  - ./volumes/data:/app/data
-    #  - ./volumes/log:/app/log
-    #  - /var/run/dbus:/var/run/dbus
-    #  - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+      - ./volumes/data:/app/data
+      - ./volumes/log:/app/log
+      - /var/run/dbus:/var/run/dbus
+      - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+    environment:
+      - DJANGO_SECRET_KEY=
+      - POSTGRES_HOST=192.168.1.2
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=fermentrack
+      - POSTGRES_USER=fermentrack
+      - POSTGRES_PASSWORD=password
