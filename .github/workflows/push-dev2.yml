@@ -44,10 +44,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./fermentrack
-          file: ./fermentrack/Dockerfile
-#         platforms: linux/386,linux/arm/v7,linux/amd64
-#         platforms: linux/arm64,linux/amd64
-          platforms: linux/amd64
+          context: ./fermentrack2
+          file: ./fermentrack2/Dockerfile
+          platforms: linux/386,linux/arm/v7,linux/amd64
+#          platforms: linux/arm64,linux/amd64
+#          platforms: linux/amd64
           push: false
           tags: ${{ steps.prep.outputs.tags }}

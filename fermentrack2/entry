@@ -7,7 +7,7 @@ chown -R django:django /app/data
 chown -R django:django /app/log
 
 echo "Fermentrack-docker: Checking if the container is running in priviliged mode (needed for bluetooth support)"
-if setcap cap_net_raw,cap_net_admin+eip /usr/local/bin/python3.9 2> /dev/null && python -h > /dev/null;
+if setcap cap_net_raw,cap_net_admin+eip /usr/local/bin/python3.9 2> /dev/null > /dev/null && python -h > /dev/null;
 then
     echo "Fermentrack-docker: Container is running in priviliged mode"
 # We need to remove the setcap options or python will fail to start fermentrack. This might fail on an older linux kernel and stop the script.
@@ -26,6 +26,10 @@ fi
 if [ "$POSTGRES_HOST" = ""  ]; then
     echo "Fermentrack-docker: Postgres environment is not defined, using sqlite!"
 else
+    echo "Fermentrack-docker: Postgres variables found, checking defaults!"
+
+    # Require; POSTGRES_HOST + POSTGRES_PASSWORD
+
     if [ "$POSTGRES_PORT" = ""  ]; then
         export POSTGRES_PORT=5432
     fi
@@ -35,11 +39,10 @@ else
     if [ "$POSTGRES_USER" = ""  ]; then
         export POSTGRES_USER=fermentrack
     fi
-    #export POSTGRES_PASSWORD={postgres_password}
     export ENV_POSTGRES_VERSION=1
 
     # Run the default startup script to check for postgress db
-    /entrypoint
+    export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
 fi
 
 echo "Fermentrack-docker: Setting environment variables!"
