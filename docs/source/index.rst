@@ -6,6 +6,8 @@
 Welcome to Fermentack-docker's documentation!
 =============================================
 
+*This documentation now reflects the v2.x version of the image.*
+
 This is a single docker image based on the project Fermentrack (https://github.com/thorrak/fermentrack).
 
 Fermentrack is a web interface for controlling and monitoring fermentation temperature and progress. It interfaces with
@@ -27,6 +29,7 @@ data a couple of times I decided to start this project.
    :caption: Contents:
 
    installation
+   upgrade
    build
    about 
    troubleshooting

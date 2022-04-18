@@ -40,7 +40,7 @@ You can also read the documentation online at; https://fermentrack-docker.readth
 - Release bases on fermentrack built in docker support. Hopefully easier to maintain.
 - Combines the django, redis and nginx containers into one image. 
 - Use sqlite database as default.
-- Will work on most platforms with minium configuration.
+- Will work on most platforms with minium configuration settings.
 
 ## Troubleshooting
 
