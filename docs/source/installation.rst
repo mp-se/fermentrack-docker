@@ -65,6 +65,17 @@ will be ignored and fermentrack will be accessed on port 8080 which is the defau
 * Connect a tilt via Bluetooth
 * Use MDNS functionallity
 
+The DJANGO_SECRET_KEY is optional and is generated with the image is build. You can however override this default key if you want higher security. This 
+command will generate the key.
+
+::
+
+    echo $(LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 50 | head -n 1)
+
+
+The postgres option below is optional and if they are not defined sqlite will be used and stored in the db folder. If you use postgres you dont need to 
+export the db folder since it will not be used. 
+
 ::
 
     version: '3'
@@ -80,7 +91,15 @@ will be ignored and fermentrack will be accessed on port 8080 which is the defau
             - ./data:/app/data
             - ./log:/app/log
             - /dev:/dev
-
+            - /var/run/dbus:/var/run/dbus
+            - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+        environment:
+          - DJANGO_SECRET_KEY=
+          - POSTGRES_HOST=192.168.1.2
+          - POSTGRES_PORT=5432
+          - POSTGRES_DB=fermentrack
+          - POSTGRES_USER=fermentrack
+          - POSTGRES_PASSWORD=password
 
 If you dont need the functionallity described above use the following configuration.
 
@@ -97,7 +116,13 @@ If you dont need the functionallity described above use the following configurat
         volumes:
             - ./db:/app/db
             - ./data:/app/data
-            - ./log:/app/log
+        environment:
+          - DJANGO_SECRET_KEY=
+          - POSTGRES_HOST=192.168.1.2
+          - POSTGRES_PORT=5432
+          - POSTGRES_DB=fermentrack
+          - POSTGRES_USER=fermentrack
+          - POSTGRES_PASSWORD=password
 
 
 The following commands will download the image and then start the container. The yaml file needs to be in the current directory.
