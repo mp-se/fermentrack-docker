@@ -2,25 +2,26 @@
 
 If you want to know more about Fermentrack please go to https://docs.fermentrack.com/.
 
-In the future the version tag will be used to track the base installation, linux version, nginx, redis python etc. There will most likley be a new build every 3-6 months to include new security fixes from the core components. But you can always fork the repository and do your own build if you want. 
+This is the v2.x version of the image. Since fermentrack is moving to a full docker setup I have chosen to rewrite this and reuse as much as possible from the standard setup. The intention is to keep this as a "all-in-one" package as much as possible and  include; django, nginx and redis in the same image. It will support either a sqlite database or a full postgres install just as the standard fermentrack (assume you have a postgres installation already). It will also be possible to run this on multiple devices in both priviliged and unprivliged mode for maximum compatibility. 
 
-These are the builds that have been released so far.
+if you have issues, please report them here; https://github.com/mp-se/fermentrack-docker/issues
 
-Newer versions have switched to debian and is now support more targets i386/amd64/armv7
+Please note that the configuration options for v2.x is different from v1.x and not longer compatible so check the setup instructions. This is due to the internal file system structure of the base fermentrack install. 
 
-__Currently the buildx for arm target is failing both on my local machine and github workflow so this has been disabled for now__
+The following environment variables exist:
 
-- v0.8.0 = Updated to work with fermentrack release from 5 Apr 2021. New path to static django files and path to requirements.txt
- 
-These versions only exist for amd64 target and are based on ubuntu stable release
+- DJANGO_SECRET_KEY=*django key (optional, pre-generated key)*
+- POSTGRES_HOST=*ip or dns name (mandatory)*
+- POSTGRES_PORT=*5434 (optional, deafult value)*
+- POSTGRES_DB=*fermentrack (optional, default value)*
+- POSTGRES_USER=*fermentrack (optional, default value)*
+- POSTGRES_PASSWORD=*password (mandatory)*
 
-- v0.7.0 = added script for debugging tilt connections + healthcheck for nginx/redis/django
-- v0.6.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
-- v0.5.0 = fermentrack release b4e7378 from 19 Dec 2020, tested bluetooth and firmware update
-- v0.4.0 = fermentrack release 3f6a8a1 from 11 Nov 2020, locked version of numpy since the latest version gave wrong result in gravity calculation
-- v0.3.0 = fermentrack release 99495bf from 7 Nov 2020, most functions should work now (bluetooth is still not verified)
-- v0.2.0 = fermentrack release 4d8d89b from 22 Aug 2020 but with additional code to disable git integration (not to break the installation)
-- v0.1.0 = fermentrack release 4d8d89b from 22 Aug 2020 (testing)
+Volumes mount options (all are optional):
+
+- ./volumes/db:/app/db
+- ./volumes/data:/app/data
+- ./volumes/log:/app/log
 
 ## Documentation
 
@@ -30,7 +31,18 @@ Any suggestions on improvements are welcome. Pplease backup your data files befo
 
 You can also read the documentation online at; https://fermentrack-docker.readthedocs.io/
 
-Good luck!
+# Release history
+
+### v2.0.0 Migrated to using fermentrack docker base. 
+
+- Release bases on fermentrack built in docker support. Hopefully easier to maintain.
+- Combines the django, redis and nginx containers into one image. 
+- Use sqlite database as default.
+- Will work on most platforms with minium configuration.
+
+### v1.0.0 Migrated to bullseye + python 3.9. 
+- New base image that will reduce the vulnerabilties in the image. 
+- Activated Trivy as vulnerability scanner. 
 
 ## Troubleshooting
 

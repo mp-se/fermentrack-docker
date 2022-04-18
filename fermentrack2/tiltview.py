@@ -4,8 +4,6 @@
 #
 # Use this to install an environment for this script
 #
-# virtualenv env
-# source env/bin/activate
 # pip install requests PyBluez beacontools beaconscanner
 # python tiltview.py
 #

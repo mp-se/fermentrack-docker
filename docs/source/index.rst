@@ -11,7 +11,7 @@ This is a single docker image based on the project Fermentrack (https://github.c
 Fermentrack is a web interface for controlling and monitoring fermentation temperature and progress. It interfaces with
 BrewPi controllers as well as specific gravity sensors like the Tilt and iSpindel in order to help you make better beer.
 
-There is a official docker release in development which consists of several docker images (fermentrack/app, progress/db, redis, nginx/web). 
+There is a official docker releasewhich consists of several docker images (fermentrack/app, postgress/db, redis, nginx/web). 
 But in order to handle that you need a platform that supports the docker-compose add-on. 
 
 This project takes a diffrent approach and package everything into one single image that can be run on any platform that just have the base docker 

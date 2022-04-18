@@ -1,0 +1,68 @@
+#!/bin/bash
+set -e
+
+echo "Fermentrack-docker: Setting correct access rights on mounted volumes"
+chown -R django:django /app/db
+chown -R django:django /app/data
+chown -R django:django /app/log
+
+echo "Fermentrack-docker: Checking if the container is running in priviliged mode (needed for bluetooth support)"
+if setcap cap_net_raw,cap_net_admin+eip /usr/local/bin/python3.9 2> /dev/null > /dev/null && python -h > /dev/null;
+then
+    echo "Fermentrack-docker: Container is running in priviliged mode"
+# We need to remove the setcap options or python will fail to start fermentrack. This might fail on an older linux kernel and stop the script.
+elif setcap -r /usr/local/bin/python3.9; 
+then 
+    echo "Fermentrack-docker: Container is NOT running in priviligied mode (1)"
+else 
+    echo "Fermentrack-docker: Container is NOT running in priviligied mode (2)"
+fi
+
+if [ "$DJANGO_SECRET_KEY" = ""  ]; then
+    echo "Fermentrack-docker: No django_secret_key is defined, using default!"
+    export DJANGO_SECRET_KEY=`cat /DJANGO_SECRET_KEY`
+fi
+
+if [ "$POSTGRES_HOST" = ""  ]; then
+    echo "Fermentrack-docker: Postgres environment is not defined, using sqlite!"
+else
+    echo "Fermentrack-docker: Postgres variables found, checking defaults!"
+
+    # Require; POSTGRES_HOST + POSTGRES_PASSWORD
+
+    if [ "$POSTGRES_PORT" = ""  ]; then
+        export POSTGRES_PORT=5432
+    fi
+    if [ "$POSTGRES_DB" = ""  ]; then
+        export POSTGRES_DB=fermentrack
+    fi
+    if [ "$POSTGRES_USER" = ""  ]; then
+        export POSTGRES_USER=fermentrack
+    fi
+    export ENV_POSTGRES_VERSION=1
+
+    # Run the default startup script to check for postgress db
+    export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+fi
+
+echo "Fermentrack-docker: Setting environment variables!"
+export DJANGO_SETTINGS_MODULE=fermentrack_django.settings
+export DJANGO_ADMIN_URL=
+export DJANGO_ALLOWED_HOSTS=*
+export USE_DOCKER=True
+export DJANGO_SECURE_SSL_REDIRECT=False
+export DJANGO_SERVER_EMAIL=
+export MAILGUN_API_KEY=
+export MAILGUN_DOMAIN=
+export DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+export WEB_CONCURRENCY=4
+export SENTRY_DSN=
+export REDIS_URL=redis://127.0.0.1:6379/0
+export ENV_DJANGO_VERSION=1
+
+echo "Fermentrack-docker: Version/Source of fermentrack used"
+git remote -v
+git log -n 1 --pretty=short
+
+echo "Fermentrack-docker: Preparations done, calling fermentrack start script!"
+sudo -u django -E /start

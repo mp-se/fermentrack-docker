@@ -40,13 +40,15 @@ jobs:
           echo $GITHUB_REF, $SHORTREF, $VERSION, $TAGS
     
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@master
+        id: qemu
+        uses: docker/setup-qemu-action@v1
         with:
+          image: tonistiigi/binfmt:latest
           platforms: all
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@master
+        uses: docker/setup-buildx-action@v1
         
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -64,3 +66,25 @@ jobs:
           platforms: linux/arm64,linux/amd64
           push: true
           tags: ${{ steps.prep.outputs.tags }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/mpse2/fermentrack-docker:latest'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+#         severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+          severity: 'HIGH,CRITICAL'
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'trivy-results.sarif'
+          path: 'trivy-results.sarif'
+          retention-days: 5
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
