@@ -58,7 +58,7 @@ RUN mkdir /app/db
 RUN chown -R django:django /app
 
 RUN groupadd -g 2002 nginx && useradd --system -M -u 2003 -g nginx nginx -s /usr/sbin/nologin
-RUN cp /app/compose/production/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./ngnix.conf /etc/nginx/nginx.conf
 RUN chown -R nginx:nginx /var/log/nginx
 
 RUN mkdir /usr/local/etc/redis
