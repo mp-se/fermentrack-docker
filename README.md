@@ -35,6 +35,10 @@ You can also read the documentation online at; https://fermentrack-docker.readth
 
 # Release history
 
+### v2.0.1 Migrated to using fermentrack docker base. 
+
+- Fixed path to data directory so graphs are rendered correctly.
+
 ### v2.0.0 Migrated to using fermentrack docker base. 
 
 - Release bases on fermentrack built in docker support. Hopefully easier to maintain.
