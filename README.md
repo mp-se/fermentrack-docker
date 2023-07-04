@@ -1,3 +1,6 @@
+With the latest release of fermentrack the changes its not worth the effort to maintain this project anymore. 
+
+
 # Fermentrack Docker Image
 
 If you want to know more about Fermentrack please go to https://docs.fermentrack.com/.
